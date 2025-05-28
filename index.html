@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>قیمت لحظه‌ای تتر</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1> $ قیمت لحظه‌ای تتر </h1>
+  <div id="price">در حال دریافت قیمت...</div>
+
+  <!-- فوتر کپی‌رایت -->
+  <footer>
+    <p>© 2025 Developed by @TLMOTN </p>
+  </footer>
+
+  <script>
+    async function fetchPrice() {
+      try {
+        const response = await fetch("https://corsproxy.io/?https://api.nobitex.ir/market/stats", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ srcCurrency: "usdt", dstCurrency: "rls" })
+        });
+        const data = await response.json();
+        const price = data.stats["usdt-rls"].latest;
+        document.getElementById("price").textContent = price + " تومان";
+      } catch (error) {
+        document.getElementById("price").textContent = "خطا در دریافت قیمت";
+      }
+    }
+
+    fetchPrice();
+    setInterval(fetchPrice, 10000);
+  </script>
+</body>
+</html>
